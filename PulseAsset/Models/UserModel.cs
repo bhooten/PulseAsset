@@ -1,14 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace PulseAsset.Models;
 
-public class UserModel
+public class UserModel : IdentityUser
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int UserId { get; set; }
-   
     [Required(ErrorMessage = "You must provide a first name for the associate.")]
     [DataType(DataType.Text)]
     [StringLength(50, ErrorMessage = "The first name must be two or more characters and less than fifty.", MinimumLength = 2)]
@@ -24,6 +21,8 @@ public class UserModel
     public string JobTitle { get; set; }
     
     [Required]
+    public int LocationId { get; set; }
+    
     [ForeignKey("LocationId")]
     public LocationModel Location { get; set; }
 }
