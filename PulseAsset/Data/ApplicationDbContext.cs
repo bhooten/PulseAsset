@@ -10,4 +10,10 @@ public class ApplicationDbContext : IdentityDbContext<UserModel>
         : base(options)
     {
     }
+    
+    public DbSet<AssetModel> Assets { get; set; }
+    public DbSet<CategoryModel> Categories { get; set; }
+    public DbSet<LocationModel> Locations { get; set; }
+    public DbSet<UserModel> Users { get; set; }
+
 }
