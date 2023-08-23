@@ -12,9 +12,9 @@ public class CategoryModel
     [Required]
     [Display(Name = "Category")]
     [DataType(DataType.Text)]
-    public string Name;
-    
+    public string Name { get; set; }
+
     [Required]
     [DataType(DataType.MultilineText)]
-    public string Description;
+    public string Description { get; set; }
 }

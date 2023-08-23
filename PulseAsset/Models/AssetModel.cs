@@ -24,33 +24,32 @@ public class AssetModel
     [Required(ErrorMessage = "You must supply a purchase price for the asset.")]
     [DataType(DataType.Currency)]
     [Column(TypeName = "decimal(12, 2)")]
-    public double Price { get; set; }
+    public decimal Price { get; set; }
 
     [Display(Name = "Date of Purchase")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-    public DateTime PurchaseDate;
+    public DateTime? PurchaseDate { get; set; }
     
     [Display(Name = "Date of Disposal")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-    public DateTime DisposalDate;
+    public DateTime? DisposalDate { get; set; }
     
-    [Required]
+    [Required(ErrorMessage = "You must select a valid category for the asset.")]
     public int CategoryId { get; set; }
     
     [ForeignKey("CategoryId")]
-    public CategoryModel Category { get; set; }
+    public CategoryModel? Category { get; set; }
     
-    [Required]
+    [Required(ErrorMessage = "You must select a valid location for the asset.")]
     public int LocationId { get; set; }
     
     [ForeignKey("LocationId")]
-    public LocationModel Location { get; set; }
+    public LocationModel? Location { get; set; }
     
-    [Required]
-    public int UserId { get; set; }
+    public string? UserId { get; set; }
     
     [ForeignKey("UserId")]
-    public UserModel Owner { get; set; }
+    public UserModel? Owner { get; set; }
 }
