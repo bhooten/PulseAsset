@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PulseAsset.Data;
@@ -5,6 +6,7 @@ using PulseAsset.Models;
 
 namespace PulseAsset.Controllers;
 
+[Authorize]
 public class AssetController : Controller
 {
     private readonly ApplicationDbContext _context;
