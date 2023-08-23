@@ -101,4 +101,63 @@ public class AssetController : Controller
         // Return the results to the view
         return View(assets.ToList());
     }
+    
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        // Look up the asset by ID
+        var asset = _context.Assets.Find(id);
+        
+        // Confirm the asset actually exists
+        if (asset != null)
+        {
+            // Asset exists! Collect available options for users, locations, and categories
+            // to properly populate the drop-down lists on the form.
+            ViewBag.Owners = _context.Users.Select(u => new SelectListItem
+            {
+                Text = u.FirstName + " " + u.LastName,
+                Value = u.Id
+            }).ToList();
+        
+            ViewBag.Locations = _context.Locations.Select(l => new SelectListItem
+            {
+                Text = l.Name,
+                Value = l.LocationId.ToString()
+            }).ToList();
+
+            ViewBag.Categories = _context.Categories.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.CategoryId.ToString()
+            }).ToList();
+            
+            // Send it to the form for editing
+            return View(asset);
+        }
+        else
+        {
+            // Asset doesn't exist! Send the user back to the asset list view
+            return RedirectToAction("Index", "Asset");
+        }
+    }
+
+    [HttpPost]
+    public IActionResult Edit(AssetModel asset)
+    {
+        // Check to confirm that form submission is valid and perform validation
+        if (ModelState.IsValid)
+        {
+            // Everything looks good -- send it to the database!
+            _context.Assets.Update(asset);
+            _context.SaveChanges();
+            
+            // Send the user back to the asset list view
+            return RedirectToAction("Index", "Asset");
+        }
+        else
+        {
+            // Something went wrong -- send the user back to the form to try again
+            return Edit(asset.AssetId);
+        }
+    }
 }
