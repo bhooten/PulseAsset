@@ -85,4 +85,20 @@ public class AssetController : Controller
         // Send the user back to the asset list view, regardless of whether deletion actually occurred
         return RedirectToAction("Index", "Asset");
     }
+    
+    [HttpPost]
+    public IActionResult Search()
+    {
+        // Get the search term from the form submission
+        var searchTerm = Request.Form["query"].ToString().ToLower();
+        
+        // Search for the term in the assets table
+        var assets = _context.Assets.Where(a => a.Name.ToLower().Contains(searchTerm) || a.Description.ToLower().Contains(searchTerm) || a.AssetId.Equals(searchTerm));
+
+        // Store the search query in the ViewBag for the view
+        ViewBag.SearchQuery = Request.Form["query"].ToString();
+        
+        // Return the results to the view
+        return View(assets.ToList());
+    }
 }
