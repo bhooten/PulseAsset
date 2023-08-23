@@ -1,4 +1,4 @@
-@model PulseAsset.Models.AssetModel
+@model IEnumerable<PulseAsset.Models.AssetModel>
 
 @{
     ViewBag.Title = "All Assets";
@@ -6,3 +6,32 @@
 }
 
 <h2>View All Assets</h2>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Serial Number</th>
+        <th>Purchase Price</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var asset in Model)
+    {
+        <tr>
+            <td>@asset.Name</td>
+            <td>@asset.Description</td>
+            <td>@asset.SerialNumber</td>
+            <td>@asset.Price</td>
+            <td>
+                <form asp-controller="Asset" asp-action="Delete" method="post">
+                    <input type="hidden" name="id" value="@asset.AssetId" />
+                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                </form>
+            </td>       
+        </tr>
+    }
+    </tbody>
+</table>

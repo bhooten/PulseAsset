@@ -5,4 +5,74 @@
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<div class="container">
+    <div class="row mt-4 mb-4">
+        <h1>Add Asset</h1>
+    </div>
+    <div class="row">
+        <form asp-controller="Asset" asp-action="Add">
+            <div class="row">
+                <div class="form-group mb-3 col-md-6">
+                                <label asp-for="Name"></label>
+                                <input asp-for="Name" class="form-control"/>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                <div class="form-group mb-3 col-md-6">
+                    <label asp-for="SerialNumber"></label>
+                    <input asp-for="SerialNumber" class="form-control"/>
+                    <span asp-validation-for="SerialNumber" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="form-group mb-3 col-md-12">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control"/>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            
+            <div class="row">
+                <div class="form-group mb-3 col-md-4">
+                                <label asp-for="Price"></label>
+                                <input asp-for="Price" class="form-control"/>
+                                <span asp-validation-for="Price" class="text-danger"></span>
+                            </div>
+                <div class="form-group mb-3 col-md-4">
+                    <label asp-for="PurchaseDate"></label>
+                    <input asp-for="PurchaseDate" class="form-control"/>
+                    <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3 col-md-4">
+                    <label asp-for="DisposalDate"></label>
+                    <input asp-for="DisposalDate" class="form-control"/>
+                    <span asp-validation-for="DisposalDate" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group mb-3 col-md-4">
+                    <label asp-for="Owner"></label>
+                    <select asp-for="UserId" asp-items="ViewBag.UserList" class="form-control">
+                        <option value="">Select an Owner</option>
+                    </select>
+                    <span asp-validation-for="UserId" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3 col-md-4">
+                    <label asp-for="Location"></label>
+                    <select asp-for="LocationId" asp-items="ViewBag.Locations" class="form-control">
+                        <option value="">Select a Location</option>
+                    </select>
+                    <span asp-validation-for="LocationId" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3 col-md-4">
+                    <label asp-for="Category"></label>
+                    <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control">
+                        <option value="">Select a Category</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary col-md-12">Create</button>
+        </form>
+    </div>
+</div>
