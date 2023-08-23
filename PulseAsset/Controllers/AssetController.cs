@@ -93,7 +93,10 @@ public class AssetController : Controller
         var searchTerm = Request.Form["query"].ToString().ToLower();
         
         // Search for the term in the assets table
-        var assets = _context.Assets.Where(a => a.Name.ToLower().Contains(searchTerm) || a.Description.ToLower().Contains(searchTerm) || a.AssetId.Equals(searchTerm));
+        var assets = _context.Assets.Where(a => a.Name.ToLower().Contains(searchTerm) 
+                                                || a.Description.ToLower().Contains(searchTerm) 
+                                                || a.AssetId.Equals(searchTerm)
+                                                || a.SerialNumber.ToLower().Contains(searchTerm));
 
         // Store the search query in the ViewBag for the view
         ViewBag.SearchQuery = Request.Form["query"].ToString();
