@@ -6,6 +6,7 @@ using PulseAsset.Models;
 
 namespace PulseAsset.Controllers;
 
+[Authorize]
 public class AssetController : Controller
 {
     private readonly ApplicationDbContext _context;

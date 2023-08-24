@@ -6,6 +6,7 @@ using PulseAsset.Models.ViewModels;
 
 namespace PulseAsset.Controllers;
 
+[Authorize]
 public class SettingsController : Controller
 {
     private readonly ApplicationDbContext _context;
