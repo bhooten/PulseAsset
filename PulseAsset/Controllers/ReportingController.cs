@@ -74,7 +74,7 @@ public class ReportingController : Controller
         var stream = new MemoryStream(byteArray);
 
         // Return the CSV file
-        return File(stream, "text/csv", "report.csv");
+        return File(stream, "text/csv", DateTime.Now.ToString("yyyyMMddHHmmss") + "-PulseAsset-Report.csv");
     }
 
     private IEnumerable<AssetModel> FilterReportData(ReportingFormViewModel model)
