@@ -59,7 +59,7 @@
                         }
                         else
                         {
-                            <option value="@Model.UserId">@Model.Owner.FirstName.Concat(@Model.Owner.LastName)</option>
+                            <option value="@Model.UserId">@Model.Owner.Email</option>
                         }
                     </select>
                     <span asp-validation-for="UserId" class="text-danger"></span>

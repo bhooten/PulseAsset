@@ -6,7 +6,6 @@ using PulseAsset.Models;
 
 namespace PulseAsset.Controllers;
 
-[Authorize]
 public class AssetController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -24,7 +23,7 @@ public class AssetController : Controller
         // to properly populate the drop-down lists on the form.
         ViewBag.Owners = _context.Users.Select(u => new SelectListItem
         {
-            Text = u.FirstName + " " + u.LastName,
+            Text = u.Email,
             Value = u.Id
         }).ToList();
         
@@ -74,7 +73,7 @@ public class AssetController : Controller
     public IActionResult Delete(int id)
     {
         // Look up the asset by ID
-        var asset = _context.Assets.Find(id);
+        AssetModel asset = _context.Assets.Find(id);
         
         // Confirm the asset actually exists
         if (asset != null)
@@ -92,10 +91,10 @@ public class AssetController : Controller
     public IActionResult Search()
     {
         // Get the search term from the form submission
-        var searchTerm = Request.Form["query"].ToString().ToLower();
+        String searchTerm = Request.Form["query"].ToString().ToLower();
         
         // Search for the term in the assets table
-        var assets = _context.Assets.Where(a => a.Name.ToLower().Contains(searchTerm) 
+        IEnumerable<AssetModel> assets = _context.Assets.Where(a => a.Name.ToLower().Contains(searchTerm) 
                                                 || a.Description.ToLower().Contains(searchTerm) 
                                                 || a.AssetId.Equals(searchTerm)
                                                 || a.SerialNumber.ToLower().Contains(searchTerm));
@@ -120,7 +119,7 @@ public class AssetController : Controller
             // to properly populate the drop-down lists on the form.
             ViewBag.Owners = _context.Users.Select(u => new SelectListItem
             {
-                Text = u.FirstName + " " + u.LastName,
+                Text = u.Email,
                 Value = u.Id
             }).ToList();
         

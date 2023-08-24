@@ -26,7 +26,7 @@ public class ReportingController : Controller
         // to properly populate the drop-down lists on the form.
         ViewBag.Owners = _context.Users.Select(u => new SelectListItem
         {
-            Text = u.FirstName + " " + u.LastName,
+            Text = u.Email,
             Value = u.Id
         }).ToList();
         
@@ -64,7 +64,7 @@ public class ReportingController : Controller
         {
             // Add a new line to the CSV with the asset's data
             csvBuilder.AppendLine($"{asset.AssetId},{asset.Name},{asset.SerialNumber},{asset.Description}," +
-                                  $"{asset.Owner?.FirstName ?? ""} {asset.Owner?.LastName ?? ""},{asset.Location?.Name}," +
+                                  $"{asset.Owner?.Email ?? ""},{asset.Location?.Name}," +
                                   $"{asset.Category?.Name},{asset.PurchaseDate?.ToString() ?? ""},{asset.DisposalDate?.ToString() ?? ""}," +
                                   $"{asset.Price}");
         }
