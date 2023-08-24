@@ -15,29 +15,25 @@ public class SettingsController : Controller
     {
         _context = context;
     }
-    
-    [HttpGet]
-    public IActionResult Index()
-    {
-        return View();
-    }
 
     [HttpGet]
     public IActionResult Locations()
     {
+        // We're just getting a list of the locations
         return View(_context.Locations.ToList());
     }
     
     [HttpGet]
     public IActionResult EditLocation(int id)
     {
-        var location = _context.Locations.Find(id);
-        
-        return View(new LocationModel
+        LocationModel location = _context.Locations.Find(id);
+
+        if (location == null)
         {
-            Name = location.Name,
-            Address = location.Address
-        });
+            return RedirectToAction("Locations", "Settings");
+        }
+        
+        return View(location);
     }
     
     [HttpPost]
@@ -47,13 +43,7 @@ public class SettingsController : Controller
         if (ModelState.IsValid)
         {
             // Everything is good! Update the location in the database
-            _context.Locations.Update(new LocationModel
-            {
-                LocationId = location.LocationId,
-                Name = location.Name,
-                Address = location.Address
-            });
-            
+            _context.Locations.Update(location);
             _context.SaveChanges();
         }
         else
@@ -67,20 +57,25 @@ public class SettingsController : Controller
     }
     
     [HttpPost]
-    public IActionResult Add(LocationViewModel location)
+    public IActionResult AddLocation(LocationModel location)
     {
         if (ModelState.IsValid)
         {
-            _context.Locations.Add(new LocationModel
-            {
-                Name = location.Name,
-                Address = location.Address
-            });
-            
+            _context.Locations.Add(location);
             _context.SaveChanges();
+        }
+        else
+        {
+            return AddLocation();
         }
         
         return RedirectToAction("Locations", "Settings");
+    }
+
+    [HttpGet]
+    public IActionResult AddLocation()
+    {
+        return View();
     }
 
     [HttpPost]
@@ -99,5 +94,85 @@ public class SettingsController : Controller
         
         // Send the user back to the location list view, regardless of whether deletion actually occurred
         return RedirectToAction("Locations", "Settings");
+    }
+    
+    [HttpGet]
+    public IActionResult Categories()
+    {
+        // We're just getting a list of the categories
+        return View(_context.Categories.ToList());
+    }
+
+    [HttpGet]
+    public IActionResult EditCategory(int id)
+    {
+        CategoryModel category = _context.Categories.Find(id);
+
+        if (category == null)
+        {
+            return RedirectToAction("Categories", "Settings");
+        }
+        
+        return View(category);
+    }
+
+    [HttpPost]
+    public IActionResult EditCategory(CategoryModel category)
+    {
+        // Check to ensure everything is filled out correctly
+        if (ModelState.IsValid)
+        {
+            // Everything is good! Update the location in the database
+            _context.Categories.Update(category);
+            _context.SaveChanges();
+        }
+        else
+        {
+            // Something wasn't filled out right. Send them back!
+            return EditCategory(category.CategoryId);
+        }
+        
+        // Send them back to the list of locations after we finish the update
+        return RedirectToAction("Categories", "Settings");
+    }
+
+    [HttpPost]
+    public IActionResult AddCategory(CategoryModel category)
+    {
+        if (ModelState.IsValid)
+        {
+            _context.Categories.Add(category);
+            _context.SaveChanges();
+        }
+        else
+        {
+            return AddLocation();
+        }
+        
+        return RedirectToAction("Categories", "Settings");
+    }
+
+    [HttpGet]
+    public IActionResult AddCategory()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult DeleteCategory(int id)
+    {
+        // Look up the Category by ID
+        CategoryModel category = _context.Categories.Find(id);
+        
+        // Confirm the category actually exists
+        if (category != null)
+        {
+            // Category exists! Bye bye!
+            _context.Categories.Remove(category);
+            _context.SaveChanges();
+        }
+        
+        // Send the user back to the category list view, regardless of whether deletion actually occurred
+        return RedirectToAction("Categories", "Settings");
     }
 }
