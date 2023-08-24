@@ -10,37 +10,39 @@
 </head>
 
 <body>
-
-<!-- TODO For some reason, the navbar is not expanding to the full size and is only occupying the left 65-ish percent -->
-
-<nav style="justify-content: center" class="navbar navbar-expand-md bg-dark py-3" data-bs-theme="dark">
+<nav class="navbar navbar-expand-md bg-dark py-3 col-md-12" data-bs-theme="dark">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="#">
-            <span>PulseAsset</span>
+        <a class="navbar-brand d-flex align-items-center order-md-first" asp-controller="Home" asp-action="Index">
+            <span><strong>PulseAsset</strong></span>
         </a>
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-6">
-            <span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span>
-        </button>
-        <div id="navcol-6" class="collapse navbar-collapse flex-grow-0 order-md-first">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Asset" asp-action="Index">Assets</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Reporting</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Administration</a>
-                </li>
-            </ul>
-            <div class="d-md-none my-2">
-                <button class="btn btn-light me-2" type="button">Button</button><button class="btn btn-primary" type="button">Button</button>
+        @if (User.Identity!.IsAuthenticated)
+        {
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-6">
+                <span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="navcol-6" class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Reporting" asp-action="Index">Reporting</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Settings" asp-action="Index">Administration</a>
+                    </li>
+                </ul>
             </div>
+        }
+        
+        <div class="hstack">
+            @if(User.Identity!.IsAuthenticated)
+            {
+            <form asp-controller="Asset" asp-action="Search" method="post" class="me-2">
+                <input class="form-control" type="search" name="query" placeholder="Search..." style="background-color: whitesmoke; color: black"/>
+            </form>
+            <a class="btn btn-light me-2" role="button" asp-controller="Asset" asp-action="Index">View All</a>
+            <a class="btn btn-primary" role="button" asp-controller="Asset" asp-action="Add">Add +</a>
+            }
+            <partial name="_LoginPartial"/>
         </div>
-        <div class="d-none d-md-block">
-            <a class="btn btn-light me-2" role="button" asp-controller="Asset" asp-action="Index">View All</a><a class="btn btn-primary" role="button" asp-controller="Asset" asp-action="Add">Add +</a>
-        </div>
-        <partial name="_LoginPartial"/>
     </div>
 </nav>
 
