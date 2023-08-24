@@ -2,7 +2,14 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mt-3">
+    <h1>Welcome to PulseAsset</h1>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <p><a asp-area="Identity" asp-route="/Identity/Account/Login">Login</a> to get started managing assets. Don't have an account? <a asp-area="Identity" asp-route="/Identity/Account/Register">Register now.</a></p>
+    }
+    else
+    {
+        <p>You are already signed into PulseAsset. Feel free to navigate using the links at the top of the screen to add, edit, or remove assets.</p>
+    }
 </div>
