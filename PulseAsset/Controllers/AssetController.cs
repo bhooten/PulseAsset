@@ -23,7 +23,7 @@ public class AssetController : Controller
         // to properly populate the drop-down lists on the form.
         ViewBag.Owners = _context.Users.Select(u => new SelectListItem
         {
-            Text = u.Email,
+            Text = u.FirstName + " " + u.LastName,
             Value = u.Id
         }).ToList();
         
@@ -119,7 +119,7 @@ public class AssetController : Controller
             // to properly populate the drop-down lists on the form.
             ViewBag.Owners = _context.Users.Select(u => new SelectListItem
             {
-                Text = u.Email,
+                Text = u.FirstName + " " + u.LastName,
                 Value = u.Id
             }).ToList();
         
