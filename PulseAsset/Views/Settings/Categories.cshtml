@@ -8,7 +8,7 @@
 <div class="container">
     <div class="row mt-4">
         <h1>Application Settings</h1>
-        <br />
+        <br/>
     </div>
     <div class="row mb-4">
         <div class="col-md-11">
@@ -57,7 +57,7 @@
                             </form>
                             <form asp-controller="Settings" asp-action="DeleteCategory" method="post">
                                 <input type="hidden" name="id" value="@category.CategoryId"/>
-                                <button type="submit" class="btn btn-danger">
+                                <button type="submit" class="btn btn-danger" @(Model.Count() < 2 ? "disabled" : "")>
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </form>

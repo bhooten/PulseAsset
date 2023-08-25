@@ -87,9 +87,17 @@ public class SettingsController : Controller
         // Confirm the location actually exists
         if (location != null)
         {
-            // Location exists! Bye bye!
-            _context.Locations.Remove(location);
-            _context.SaveChanges();
+            // Location exists! Let's first make sure it's not the only one,
+            // since leaving only one can cause issues with user sign-in and registration
+            // 
+            // If logic doesn't pass, we'll just skip deletion and return to the view
+            // There is no need to pass status messages back as the front-end should disable deletion buttons
+            if (_context.Locations.Count() > 1)
+            {
+                // There are multiple! Good to remove.
+                _context.Locations.Remove(location);
+                _context.SaveChanges();
+            }
         }
         
         // Send the user back to the location list view, regardless of whether deletion actually occurred
@@ -167,9 +175,17 @@ public class SettingsController : Controller
         // Confirm the category actually exists
         if (category != null)
         {
-            // Category exists! Bye bye!
-            _context.Categories.Remove(category);
-            _context.SaveChanges();
+            // Category exists! Let's first make sure it's not the only one,
+            // since deleting the only category can cause issues.
+            // 
+            // If logic doesn't pass, we'll just skip deletion and return to the view
+            // There is no need to pass status messages back as the front-end should disable deletion buttons
+            if (_context.Categories.Count() > 1)
+            {
+                // There are multiple! Good to remove.
+                _context.Categories.Remove(category);
+                _context.SaveChanges();
+            }
         }
         
         // Send the user back to the category list view, regardless of whether deletion actually occurred

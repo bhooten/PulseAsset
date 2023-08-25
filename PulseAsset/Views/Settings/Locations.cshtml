@@ -55,7 +55,9 @@
                             </form>
                             <form asp-controller="Settings" asp-action="DeleteLocation" method="post">
                                 <input type="hidden" name="id" value="@location.LocationId"/>
-                                <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                <button type="submit" class="btn btn-danger" @(Model.Count() < 2 ? "disabled" : "")>
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
                             </form>
                         </div>
                     </td>       
