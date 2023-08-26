@@ -39,20 +39,24 @@ namespace PulseAsset.Migrations
                 {
                     table.PrimaryKey("PK_Categories", x => x.CategoryId);
                 });
+            
+            migrationBuilder.Sql("ALTER TABLE `Categories` MODIFY COLUMN `CategoryId` INT NOT NULL AUTO_INCREMENT;");
 
             migrationBuilder.CreateTable(
                 name: "Locations",
                 columns: table => new
                 {
-                    LocationId = table.Column<int>(type: "INTEGER", nullable: false)
+                    LocationId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Address = table.Column<string>(type: "TEXT", nullable: false)
+                    Name = table.Column<string>(type: "VARCHAR(50)", nullable: false),
+                    Address = table.Column<string>(type: "VARCHAR(150)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Locations", x => x.LocationId);
                 });
+            
+            migrationBuilder.Sql("ALTER TABLE `Locations` MODIFY COLUMN `LocationId` INT NOT NULL AUTO_INCREMENT;");
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -61,8 +65,8 @@ namespace PulseAsset.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<string>(type: "VARCHAR(255)", nullable: false),
-                    ClaimType = table.Column<string>(type: "TEXT", nullable: true),
-                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
+                    ClaimType = table.Column<string>(type: "VARCHAR(255)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "VARCHAR(255)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -117,8 +121,8 @@ namespace PulseAsset.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(type: "VARCHAR(255)", nullable: false),
-                    ClaimType = table.Column<string>(type: "TEXT", nullable: true),
-                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
+                    ClaimType = table.Column<string>(type: "VARCHAR(255)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "VARCHAR(255)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -205,8 +209,8 @@ namespace PulseAsset.Migrations
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     SerialNumber = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(12, 2)", nullable: false),
-                    PurchaseDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    DisposalDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    PurchaseDate = table.Column<DateTime>(type: "VARCHAR(30)", nullable: true),
+                    DisposalDate = table.Column<DateTime>(type: "VARCHAR(30)", nullable: true),
                     CategoryId = table.Column<int>(type: "INTEGER", nullable: false),
                     LocationId = table.Column<int>(type: "INTEGER", nullable: false),
                     UserId = table.Column<string>(type: "VARCHAR(255)", nullable: true)
@@ -232,6 +236,8 @@ namespace PulseAsset.Migrations
                         principalColumn: "LocationId",
                         onDelete: ReferentialAction.Restrict);
                 });
+            
+            migrationBuilder.Sql("ALTER TABLE `Assets` MODIFY COLUMN `AssetId` INT NOT NULL AUTO_INCREMENT;");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

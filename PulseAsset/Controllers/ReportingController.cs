@@ -50,7 +50,7 @@ public class ReportingController : Controller
     {
         // First... we need to narrow down the list of assets to only the ones that match the criteria
         // specified by the user in the form. We can do this by supplying the report request to #FilterReportData
-        IEnumerable<AssetModel> assets = FilterReportData(reportRequest);
+        IEnumerable<AssetModel> assets = FilterReportData(_context.Assets.ToList(), reportRequest);
         
         // Since a CSV is just plaintext with commas separating the values, we can use a StringBuilder
         StringBuilder csvBuilder = new StringBuilder();
@@ -77,10 +77,8 @@ public class ReportingController : Controller
         return File(stream, "text/csv", DateTime.Now.ToString("yyyyMMddHHmmss") + "-PulseAsset-Report.csv");
     }
 
-    private IEnumerable<AssetModel> FilterReportData(ReportingFormViewModel model)
+    public static List<AssetModel> FilterReportData(List<AssetModel> assets, ReportingFormViewModel model)
     {
-        List<AssetModel> assets = _context.Assets.ToList();
-        
         // If the Category is set, filter out non-matching results
         if(model.CategoryId != null)
             assets = assets.Where(a => a.CategoryId == model.CategoryId).ToList();
