@@ -22,6 +22,14 @@
             </a>
         </div>
     </div>
+    @if(ViewBag.ErrorMessage != null)
+    {
+        <div class="row">
+            <div class="alert alert-@(ViewBag.ErrorType == null ? "primary" : ViewBag.ErrorType)" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        </div>
+    }
     <div class="row">
         <ul class="nav nav-tabs">
             <li class="nav-item">

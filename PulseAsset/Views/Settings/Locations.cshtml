@@ -8,30 +8,38 @@
 <div class="container">
     <div class="row mt-4">
         <h1>Application Settings</h1>
-        <br />
+        <br/>
     </div>
     <div class="row mb-4">
-            <div class="col-md-11">
-                <h3>Location List</h3>
-            </div>
-            <div class="col-md-1">
-                <a asp-action="AddLocation" asp-controller="Settings">
-                    <button type="submit" class="btn btn-success col-md-12">
-                        <i class="bi bi-plus-circle"></i>&nbsp;Add
-                    </button>
-                </a>
-            </div>
+        <div class="col-md-11">
+            <h3>Location List</h3>
         </div>
+        <div class="col-md-1">
+            <a asp-action="AddLocation" asp-controller="Settings">
+                <button type="submit" class="btn btn-success col-md-12">
+                    <i class="bi bi-plus-circle"></i>&nbsp;Add
+                </button>
+            </a>
+        </div>
+    </div>
+    @if (ViewBag.ErrorMessage != null)
+    {
         <div class="row">
-            <ul class="nav nav-tabs">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page">Locations</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" asp-action="Categories" asp-controller="Settings">Categories</a>
-              </li>
-            </ul>
+            <div class="alert alert-@(ViewBag.ErrorType == null ? "primary" : ViewBag.ErrorType)" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
         </div>
+    }
+    <div class="row">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page">Locations</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Categories" asp-controller="Settings">Categories</a>
+            </li>
+        </ul>
+    </div>
     <div class="row">
         <table class="table table-hover">
             <thead>
@@ -50,8 +58,10 @@
                     <td>
                         <div class="hstack gap-2">
                             <form asp-controller="Settings" asp-action="EditLocation" method="get">
-                                <input type="hidden" name="id" value="@location.LocationId" />
-                                <button type="submit" class="btn btn-primary"><i class="bi bi-pencil-fill"></i></button>
+                                <input type="hidden" name="id" value="@location.LocationId"/>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
                             </form>
                             <form asp-controller="Settings" asp-action="DeleteLocation" method="post">
                                 <input type="hidden" name="id" value="@location.LocationId"/>
@@ -60,7 +70,7 @@
                                 </button>
                             </form>
                         </div>
-                    </td>       
+                    </td>
                 </tr>
             }
             </tbody>

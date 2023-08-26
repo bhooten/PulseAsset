@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PulseAsset.Data;
 using PulseAsset.Models;
-using PulseAsset.Models.ViewModels;
 
 namespace PulseAsset.Controllers;
 
@@ -88,18 +87,41 @@ public class SettingsController : Controller
         if (location != null)
         {
             // Location exists! Let's first make sure it's not the only one,
-            // since leaving only one can cause issues with user sign-in and registration
+            // as well as no assets are assigned to it.
             // 
             // If logic doesn't pass, we'll just skip deletion and return to the view
-            // There is no need to pass status messages back as the front-end should disable deletion buttons
-            if (_context.Locations.Count() > 1)
+            if (_context.Categories.Count() > 1)
             {
                 // There are multiple! Good to remove.
-                _context.Locations.Remove(location);
-                _context.SaveChanges();
+                if (_context.Assets.Where(a => a.LocationId == id).Count() == 0)
+                {
+                    _context.Locations.Remove(location);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    ViewBag.ErrorType = "danger";
+                    ViewBag.ErrorMessage = "You can not delete a location that has assets assigned to it.";
+
+                    return View("Locations", _context.Locations.ToList());
+                }
+            }
+            else
+            {
+                ViewBag.ErrorType = "danger";
+                ViewBag.ErrorMessage = "You must create a new location before you can delete the requested one.";
+
+                return View("Locations", _context.Locations.ToList());
             }
         }
-        
+        else
+        {
+            ViewBag.ErrorType = "warning";
+            ViewBag.ErrorMessage = "The location deletion was attempted on does not exist.";
+            
+            return View("Locations", _context.Locations.ToList());
+        }
+
         // Send the user back to the location list view, regardless of whether deletion actually occurred
         return RedirectToAction("Locations", "Settings");
     }
@@ -176,16 +198,39 @@ public class SettingsController : Controller
         if (category != null)
         {
             // Category exists! Let's first make sure it's not the only one,
-            // since deleting the only category can cause issues.
+            // as well as no assets are assigned to it.
             // 
             // If logic doesn't pass, we'll just skip deletion and return to the view
-            // There is no need to pass status messages back as the front-end should disable deletion buttons
             if (_context.Categories.Count() > 1)
             {
                 // There are multiple! Good to remove.
-                _context.Categories.Remove(category);
-                _context.SaveChanges();
+                if (_context.Assets.Where(a => a.CategoryId == id).Count() == 0)
+                {
+                    _context.Categories.Remove(category);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    ViewBag.ErrorType = "danger";
+                    ViewBag.ErrorMessage = "You can not delete a category that has assets assigned to it.";
+
+                    return View("Categories", _context.Categories.ToList());
+                }
             }
+            else
+            {
+                ViewBag.ErrorType = "danger";
+                ViewBag.ErrorMessage = "You must create a new category before you can delete the requested one.";
+
+                return View("Categories", _context.Categories.ToList());
+            }
+        }
+        else
+        {
+            ViewBag.ErrorType = "warning";
+            ViewBag.ErrorMessage = "The category deletion was attempted on does not exist.";
+            
+            return View("Categories", _context.Categories.ToList());
         }
         
         // Send the user back to the category list view, regardless of whether deletion actually occurred
