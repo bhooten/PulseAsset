@@ -111,7 +111,7 @@ namespace PulseAsset.Migrations
                         column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "LocationId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetDefault);
                 });
 
             migrationBuilder.CreateTable(
