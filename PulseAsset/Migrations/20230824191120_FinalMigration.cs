@@ -87,7 +87,7 @@ namespace PulseAsset.Migrations
                     FirstName = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
                     JobTitle = table.Column<string>(type: "VARCHAR(50)", nullable: false),
-                    LocationId = table.Column<int>(type: "INTEGER", nullable: false),
+                    LocationId = table.Column<int>(type: "INTEGER", nullable: true),
                     UserName = table.Column<string>(type: "VARCHAR(255)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "VARCHAR(255)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "VARCHAR(255)", maxLength: 256, nullable: true),
@@ -111,7 +111,7 @@ namespace PulseAsset.Migrations
                         column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "LocationId",
-                        onDelete: ReferentialAction.SetDefault);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
