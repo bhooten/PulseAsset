@@ -90,7 +90,7 @@ public class SettingsController : Controller
             // as well as no assets are assigned to it.
             // 
             // If logic doesn't pass, we'll just skip deletion and return to the view
-            if (_context.Categories.Count() > 1)
+            if (_context.Locations.Count() > 1)
             {
                 // There are multiple! Good to remove.
                 if (_context.Assets.Where(a => a.LocationId == id).Count() == 0)
